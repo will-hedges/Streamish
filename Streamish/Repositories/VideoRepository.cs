@@ -137,9 +137,11 @@ namespace Streamish.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                          SELECT Title, Description, Url, DateCreated, UserProfileId
-                            FROM Video
-                           WHERE Id = @Id";
+                        SELECT v.Title, v.[Description], v.[Url], v.DateCreated AS VideoDateCreated,
+	                        up.Id, up.[Name] AS Username, up.Email, up.ImageUrl, up.DateCreated AS ProfileDateCreated
+                        FROM Video v
+	                        JOIN UserProfile up ON v.UserProfileId = up.Id
+                        WHERE v.Id = @Id";
 
                     DbUtils.AddParameter(cmd, "@Id", id);
 
@@ -154,9 +156,15 @@ namespace Streamish.Repositories
                                 Id = id,
                                 Title = DbUtils.GetString(reader, "Title"),
                                 Description = DbUtils.GetString(reader, "Description"),
-                                DateCreated = DbUtils.GetDateTime(reader, "DateCreated"),
+                                DateCreated = DbUtils.GetDateTime(reader, "VideoDateCreated"),
                                 Url = DbUtils.GetString(reader, "Url"),
-                                UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
+                                UserProfile = new UserProfile()
+                                {
+                                    Name = DbUtils.GetString(reader, "Username"),
+                                    Email = DbUtils.GetString(reader, "Email"),
+                                    ImageUrl = DbUtils.GetString(reader, "ImageUrl"),
+                                    DateCreated = DbUtils.GetDateTime(reader, "ProfileDateCreated")
+                                }
                             };
                         }
 
