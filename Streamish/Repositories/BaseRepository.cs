@@ -14,10 +14,7 @@ namespace Streamish.Repositories
 
         protected SqlConnection Connection
         {
-            get
-            {
-                return new SqlConnection(_connectionString);
-            }
+            get { return new SqlConnection(_connectionString); }
         }
     }
 }

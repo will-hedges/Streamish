@@ -1,7 +1,6 @@
-using System;
 using Microsoft.AspNetCore.Mvc;
-using Streamish.Repositories;
 using Streamish.Models;
+using Streamish.Repositories;
 
 namespace Streamish.Controllers
 {
@@ -10,6 +9,7 @@ namespace Streamish.Controllers
     public class VideoController : ControllerBase
     {
         private readonly IVideoRepository _videoRepository;
+
         public VideoController(IVideoRepository videoRepository)
         {
             _videoRepository = videoRepository;
