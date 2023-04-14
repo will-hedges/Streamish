@@ -13,7 +13,7 @@ namespace Streamish.Repositories
         Video GetById(int id);
         Video GetByIdWithComments(int id);
         List<Video> Search(string criterion, bool sortDescending);
-        List<Video> Hottest(DateTime date);
+        List<Video> Hottest(DateTime since);
         void Update(Video video);
     }
 }

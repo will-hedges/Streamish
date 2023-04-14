@@ -58,9 +58,9 @@ namespace Streamish.Controllers
         }
 
         [HttpGet("hottest")]
-        public IActionResult Hottest(DateTime date)
+        public IActionResult Hottest(DateTime since)
         {
-            return Ok(_videoRepository.Hottest(date));
+            return Ok(_videoRepository.Hottest(since));
         }
 
         [HttpPost]

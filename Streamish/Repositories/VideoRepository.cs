@@ -310,7 +310,7 @@ namespace Streamish.Repositories
             }
         }
 
-        public List<Video> Hottest(DateTime date)
+        public List<Video> Hottest(DateTime since)
         {
             using (var conn = Connection)
             {
@@ -320,9 +320,9 @@ namespace Streamish.Repositories
                     cmd.CommandText =
                         @"
                         SELECT Title, [Description], [Url], DateCreated FROM Video
-                        WHERE DateCreated >= @date";
+                        WHERE DateCreated >= @since";
 
-                    DbUtils.AddParameter(cmd, "@date", date.ToString());
+                    DbUtils.AddParameter(cmd, "@since", since.ToString());
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
