@@ -18,6 +18,16 @@ const Video = ({ video }) => {
         </p>
         <p>{video.description}</p>
       </CardBody>
+      {video.comments.length > 0 ? (
+        <>
+          <h5>Comments:</h5>
+          {video.comments.map((comment) => (
+            <p key={comment.id}>{comment.message}</p>
+          ))}
+        </>
+      ) : (
+        <></>
+      )}
     </Card>
   );
 };
