@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Streamish.Models;
 using Streamish.Repositories;
+using System;
 
 namespace Streamish.Controllers
 {
@@ -54,6 +55,12 @@ namespace Streamish.Controllers
         public IActionResult Search(string q, bool sortDesc)
         {
             return Ok(_videoRepository.Search(q, sortDesc));
+        }
+
+        [HttpGet("hottest")]
+        public IActionResult Hottest(DateTime date)
+        {
+            return Ok(_videoRepository.Hottest(date));
         }
 
         [HttpPost]
