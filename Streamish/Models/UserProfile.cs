@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Streamish.Models
@@ -17,6 +16,5 @@ namespace Streamish.Models
         public string ImageUrl { get; set; }
 
         public DateTime DateCreated { get; set; }
-
     }
 }
