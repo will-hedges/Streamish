@@ -2,6 +2,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Streamish.Models;
 using Streamish.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -303,6 +304,41 @@ namespace Streamish.Repositories
                             );
                         }
 
+                        return videos;
+                    }
+                }
+            }
+        }
+
+        public List<Video> Hottest(DateTime since)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText =
+                        @"
+                        SELECT Title, [Description], [Url], DateCreated FROM Video
+                        WHERE DateCreated >= @since";
+
+                    DbUtils.AddParameter(cmd, "@since", since.ToString());
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        var videos = new List<Video>();
+                        while (reader.Read())
+                        {
+                            videos.Add(
+                                new Video()
+                                {
+                                    Title = DbUtils.GetString(reader, "Title"),
+                                    Description = DbUtils.GetString(reader, "Description"),
+                                    Url = DbUtils.GetString(reader, "Url"),
+                                    DateCreated = DbUtils.GetDateTime(reader, "DateCreated")
+                                }
+                            );
+                        }
                         return videos;
                     }
                 }
