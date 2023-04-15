@@ -18,7 +18,7 @@ const Video = ({ video }) => {
         </p>
         <p>{video.description}</p>
       </CardBody>
-      {video.comments.length > 0 ? (
+      {video.comments != null ? (
         <>
           <h5>Comments:</h5>
           {video.comments.map((comment) => (
