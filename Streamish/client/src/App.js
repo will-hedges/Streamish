@@ -1,13 +1,16 @@
 import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 import "./styles/App.css";
-import VideoForm from "./components/VideoForm";
-import VideoList from "./components/VideoList";
+import ApplicationViews from "./components/ApplicationViews";
+import Header from "./components/Header";
 
 function App() {
   return (
     <div className="App">
-      <VideoForm />
-      <VideoList />
+      <Router>
+        <Header />
+        <ApplicationViews />
+      </Router>
     </div>
   );
 }
