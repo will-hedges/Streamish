@@ -23,7 +23,7 @@ const VideoDetails = () => {
           <Video video={video} />
           <ListGroup>
             {video.comments.map((c) => (
-              <ListGroupItem>{c.message}</ListGroupItem>
+              <ListGroupItem key={c.id}>{c.message}</ListGroupItem>
             ))}
           </ListGroup>
         </div>
