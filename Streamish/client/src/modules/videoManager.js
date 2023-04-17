@@ -14,6 +14,10 @@ export const addVideo = (video) => {
   });
 };
 
+export const getVideo = (id) => {
+  return fetch(`${baseUrl}/${id}/withcomments`).then((res) => res.json());
+};
+
 export const searchVideos = (searchTerms, sortDescBool) => {
   return fetch(
     `${baseUrl}/search?q=${searchTerms}&sortDesc=${sortDescBool}`
