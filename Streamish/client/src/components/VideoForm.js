@@ -1,81 +1,76 @@
 import React, { useState } from "react";
-
-import { Button, Input, InputGroup, InputGroupText } from "reactstrap";
-
+import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
 import { addVideo } from "../modules/videoManager";
+import { useNavigate } from "react-router";
 
-import "../styles/VideoForm.css";
+const VideoForm = ({ getVideos }) => {
+  const navigate = useNavigate();
 
-const VideoForm = () => {
-  const [videoTitle, setVideoTitle] = useState("");
-  const [videoDescription, setVideoDescription] = useState("");
-  const [videoUrl, setVideoUrl] = useState("");
+  const emptyVideo = {
+    title: "",
+    description: "",
+    url: "",
+  };
+
+  const [video, setVideo] = useState(emptyVideo);
+
+  const handleInputChange = (evt) => {
+    const value = evt.target.value;
+    const key = evt.target.id;
+
+    const videoCopy = { ...video };
+
+    videoCopy[key] = value;
+    setVideo(videoCopy);
+  };
+
+  const handleSave = (evt) => {
+    evt.preventDefault();
+
+    addVideo(video).then((p) => {
+      // Navigate the user back to the home route
+      navigate("/");
+    });
+  };
 
   return (
-    <form>
-      <h3>Upload a Video</h3>
-      <InputGroup className="form__field">
-        <InputGroupText className="field__label">Title</InputGroupText>
+    <Form>
+      <FormGroup>
+        <Label for="title">Title</Label>
         <Input
-          required
-          placeholder="A Witty Video Title"
-          value={videoTitle}
-          onChange={(evt) => {
-            setVideoTitle(evt.target.value);
-          }}
+          type="text"
+          name="title"
+          id="title"
+          placeholder="video title"
+          value={video.title}
+          onChange={handleInputChange}
         />
-      </InputGroup>
-
-      <InputGroup className="form__field">
-        <InputGroupText className="field__label">Description</InputGroupText>
+      </FormGroup>
+      <FormGroup>
+        <Label for="url">URL</Label>
+        <Input
+          type="text"
+          name="url"
+          id="url"
+          placeholder="video link"
+          value={video.url}
+          onChange={handleInputChange}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label for="description">Description</Label>
         <Input
           type="textarea"
-          placeholder="This is my review of..."
-          name="video-description"
-          value={videoDescription}
-          onChange={(evt) => {
-            setVideoDescription(evt.target.value);
-          }}
+          name="description"
+          id="description"
+          value={video.description}
+          onChange={handleInputChange}
         />
-      </InputGroup>
-
-      <InputGroup className="form__field">
-        <InputGroupText className="field__label">Url</InputGroupText>
-        <Input
-          required
-          placeholder="https://www.youtube.com/..."
-          type="text"
-          name="video-url"
-          value={videoUrl}
-          onChange={(evt) => {
-            setVideoUrl(evt.target.value);
-          }}
-        />
-      </InputGroup>
-
-      <div className="form__field">
-        {
-          // only allow the button to be active if the user inputs a title + url
-          videoTitle && videoUrl ? (
-            <Button
-              color="success"
-              onClick={() =>
-                addVideo({
-                  Title: videoTitle,
-                  Description: videoDescription,
-                  Url: videoUrl,
-                  DateCreated: Date.now(),
-                })
-              }
-            >
-              Submit
-            </Button>
-          ) : (
-            <Button disabled>Submit</Button>
-          )
-        }
-      </div>
-    </form>
+      </FormGroup>
+      <Button className="btn btn-primary" onClick={handleSave}>
+        Submit
+      </Button>
+    </Form>
   );
 };
 
