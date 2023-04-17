@@ -1,0 +1,12 @@
+.search__container {
+    display: flex;
+    margin: 1rem auto;
+    max-width: 600px;
+}
+
+.search__button {
+    margin-left: 1rem;
+}
+#sort-descending__checkbox {
+    margin-left: 1rem;
+}
