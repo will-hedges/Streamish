@@ -9,8 +9,8 @@ namespace Streamish.Repositories
         void Delete(int id);
         List<UserProfile> GetAll();
         UserProfile GetById(int id);
-
         UserProfile GetByIdWithVideos(int id);
+        UserProfile GetByFirebaseUserId(string firebaseUserId);
         void Update(UserProfile userProfile);
     }
 }
