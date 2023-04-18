@@ -3,7 +3,7 @@ import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
 import { addVideo } from "../modules/videoManager";
 import { useNavigate } from "react-router";
 
-const VideoForm = ({ getVideos }) => {
+const VideoForm = () => {
   const navigate = useNavigate();
 
   const emptyVideo = {
