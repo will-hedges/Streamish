@@ -22,12 +22,6 @@ namespace Streamish
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Streamish", Version = "v1" });
-            });
-
             services.AddTransient<IVideoRepository, VideoRepository>();
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
 
@@ -48,6 +42,32 @@ namespace Streamish
                         ValidateLifetime = true
                     };
                 });
+
+            services.AddControllers();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Streamish", Version = "v1" });
+
+                var securitySchema = new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    BearerFormat = "JWT",
+                    Description = "JWT Authorization header using the Bearer scheme.",
+                    Type = SecuritySchemeType.ApiKey,
+                    In = ParameterLocation.Header,
+                    Reference = new OpenApiReference
+                    {
+                        Id = "Bearer",
+                        Type = ReferenceType.SecurityScheme,
+                    }
+                };
+
+                c.AddSecurityDefinition("Bearer", securitySchema);
+                c.AddSecurityRequirement(
+                    new OpenApiSecurityRequirement { { securitySchema, new[] { "Bearer" } } }
+                );
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
