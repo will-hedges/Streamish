@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Streamish.Models;
 using Streamish.Repositories;
-using System.Security.Claims;
 
 namespace Streamish.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserProfileController : ControllerBase
@@ -35,39 +33,10 @@ namespace Streamish.Controllers
             return Ok(userProfile);
         }
 
-        [HttpGet("WithVideos/{id}")]
+        [HttpGet("{id}/WithVideos/")]
         public IActionResult GetByIdWithVideos(int id)
         {
             var userProfile = _userProfileRepository.GetByIdWithVideos(id);
-            if (userProfile == null)
-            {
-                return NotFound();
-            }
-            return Ok(userProfile);
-        }
-
-        private UserProfile GetCurrentUserProfile()
-        {
-            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
-        }
-
-        [HttpGet("Me")]
-        public IActionResult Me()
-        {
-            var userProfile = GetCurrentUserProfile();
-            if (userProfile == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(userProfile);
-        }
-
-        [HttpGet("DoesUserExist/{firebaseUserId}")]
-        public IActionResult GetByFirebaseUserId(string firebaseUserId)
-        {
-            var userProfile = _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
             if (userProfile == null)
             {
                 return NotFound();
