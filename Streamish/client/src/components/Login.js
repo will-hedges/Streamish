@@ -10,10 +10,15 @@ export default function Login() {
   const [password, setPassword] = useState();
 
   const loginSubmit = (e) => {
-    e.preventDefault();
-    login(email, password)
-      .then(() => navigate("/"))
-      .catch(() => alert("Login Failed"));
+    if (!password) {
+      alert("Please enter a password.");
+      e.preventDefault();
+    } else {
+      e.preventDefault();
+      login(email, password)
+        .then(() => navigate("/"))
+        .catch(() => alert("Login Failed"));
+    }
   };
 
   return (
