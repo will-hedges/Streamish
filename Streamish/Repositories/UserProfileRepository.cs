@@ -177,10 +177,11 @@ namespace Streamish.Repositories
                 {
                     cmd.CommandText =
                         @"
-                        INSERT INTO UserProfile (Name, Email, ImageUrl, DateCreated)
+                        INSERT INTO UserProfile (FirebaseUserId, Name, Email, ImageUrl, DateCreated)
                         OUTPUT INSERTED.ID
-                        VALUES (@Name, @Email, @ImageUrl, @DateCreated)";
+                        VALUES (@FirebaseUserId, @Name, @Email, @ImageUrl, @DateCreated)";
 
+                    DbUtils.AddParameter(cmd, "@FirebaseUserId", userProfile.FirebaseUserId);
                     DbUtils.AddParameter(cmd, "@Name", userProfile.Name);
                     DbUtils.AddParameter(cmd, "@Email", userProfile.Email);
                     DbUtils.AddParameter(cmd, "@ImageUrl", userProfile.ImageUrl);
