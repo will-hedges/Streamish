@@ -10,7 +10,7 @@ const VideoDetails = () => {
 
   useEffect(() => {
     getVideo(id).then(setVideo);
-  }, []);
+  }, [id]);
 
   if (!video) {
     return null;
