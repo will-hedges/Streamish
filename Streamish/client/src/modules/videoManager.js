@@ -1,5 +1,3 @@
-import firebase from "firebase";
-import "firebase/auth";
 import { getToken } from "./authManager";
 
 const baseUrl = "/api/video";

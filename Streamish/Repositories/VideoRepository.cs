@@ -209,23 +209,28 @@ namespace Streamish.Repositories
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         Video video = null;
-                        if (reader.Read())
+                        while (reader.Read())
                         {
-                            video = new Video()
+                            // don't re-create the video for multiple comments
+                            //  just add the comments to the list
+                            if (video == null)
                             {
-                                Id = id,
-                                Title = DbUtils.GetString(reader, "Title"),
-                                Description = DbUtils.GetString(reader, "Description"),
-                                Url = DbUtils.GetString(reader, "Url"),
-                                DateCreated = DbUtils.GetDateTime(reader, "VideoDateCreated"),
-                                UserProfile = new UserProfile()
+                                video = new Video()
                                 {
-                                    Name = DbUtils.GetString(reader, "VideoUserName"),
-                                    Email = DbUtils.GetString(reader, "Email"),
-                                    ImageUrl = DbUtils.GetString(reader, "ImageUrl")
-                                },
-                                Comments = new List<Comment>()
-                            };
+                                    Id = id,
+                                    Title = DbUtils.GetString(reader, "Title"),
+                                    Description = DbUtils.GetString(reader, "Description"),
+                                    Url = DbUtils.GetString(reader, "Url"),
+                                    DateCreated = DbUtils.GetDateTime(reader, "VideoDateCreated"),
+                                    UserProfile = new UserProfile()
+                                    {
+                                        Name = DbUtils.GetString(reader, "VideoUserName"),
+                                        Email = DbUtils.GetString(reader, "Email"),
+                                        ImageUrl = DbUtils.GetString(reader, "ImageUrl")
+                                    },
+                                    Comments = new List<Comment>()
+                                };
+                            }
 
                             if (DbUtils.IsNotDbNull(reader, "CommentId"))
                             {
